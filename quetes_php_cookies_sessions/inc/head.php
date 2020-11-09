@@ -1,13 +1,3 @@
-<?php
-session_start();
-
-if (!empty($_POST['loginname']))
-{
-    $_SESSION['login'] = $_POST['loginname'];
-    header("Location: index.php");
-}
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,10 +34,16 @@ if (!empty($_POST['loginname']))
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
-                    <?php if (isset($_SESSION['login'])){ ?>
-                    <li><a href="/logout.php">Logout</a></li>
-                    <?php }?>
-                    <li><a href="#">coookieeee</a></li>
+                    <li><a href="#">Chocolates chips</a></li>
+                    <li><a href="#">Nuts</a></li>
+                    <li><a href="#">Gluten full</a></li>
+                    <li>
+                        <?php if (isset($_SESSION['loginname'])) : ?>
+                            <a href="logout.php">Log out</a>
+                        <?php else: ?>
+                            <a href="login.php">Log in</a>
+                        <?php endif; ?>
+                    </li>
                     <li>
                         <a href="/cart.php" class="btn btn-warning navbar-btn">
                             <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
@@ -59,6 +55,6 @@ if (!empty($_POST['loginname']))
         </div><!-- /.container-fluid -->
     </nav>
     <div class="container-fluid text-right">
-        <strong>Hello <?= $_SESSION['login'] ?? "Wilder" ?> !</strong>
+        <strong>Hello <?= $_SESSION['loginname'] ?? "Wilder" ?> !</strong>
     </div>
 </header>
