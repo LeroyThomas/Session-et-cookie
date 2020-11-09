@@ -1,23 +1,19 @@
-<?php require 'inc/data/products.php'; ?>
-<?php require 'inc/head.php'; ?>
 <?php
-if (empty($_SESSION['login'])) {
-header("Location: login.php");
-}
-if (!empty($_GET['cart'])) {
+session_start ();
 
-    foreach ($_COOKIE as $id => $cookie) {
-
-        if (!isset($_COOKIE[$id])) {
-            $value = 1;
-            setcookie($id, $value);
-        }else{
-            $value=$_COOKIE[$id]++;
-            setcookie($id, $value);
-        }
+if (isset($_GET['add_to_cart'])) {
+    if (isset($_SESSION['loginname'])) {
+        $cart = $_GET['add_to_cart'];
+        $_SESSION['cart'][] = $cart;
+    } else {
+        header ('Location: login.php');
     }
 }
+
+require 'inc/data/products.php';
+require 'inc/head.php';
 ?>
+
 <section class="cookies container-fluid">
     <div class="row">
         <?php foreach ($catalog as $id => $cookie) { ?>
@@ -27,11 +23,9 @@ if (!empty($_GET['cart'])) {
                     <figcaption class="caption">
                         <h3><?= $cookie['name']; ?></h3>
                         <p><?= $cookie['description']; ?></p>
-                        <form role="form" action="" method="get" >
-                            <input type="hidden" name="add_to_cart" value="<?= $id; ?>" />
-                            <button href="add_to_cart=<?= $id; ?>" class="btn btn-primary">
-                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add to cart
-                            </button>
+                        <a href="?add_to_cart=<?= $id; ?>" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add to cart
+                        </a>
                         </form>
                     </figcaption>
                 </figure>
